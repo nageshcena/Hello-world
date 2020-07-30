@@ -1,7 +1,7 @@
 pipeline{
     tools{
-        jdk 'my_java'
-        maven 'my_maven'
+        jdk 'java'
+        maven 'maven'
     }
     stages{
         stage('Checkout'){
