@@ -1,26 +1,30 @@
 pipeline{
+    tools{
+        jdk 'my_java'
+        maven 'my_maven'
+    }
     agent none
-    stages{
-        stage('Checkout'){
+        stages{
+           stage('checkout'){
+           agent any
+           steps{
+               git 'https://github.com/nageshcena/Hello-world.git'
+           }
+        }
+        stage('compile'){
             agent any
             steps{
-                git 'https://github.com/nageshcena/Hello-world.git'
+                sh 'mvn compile'
             }
         }
-        stage('Compile'){
-            agent any
-            steps{
-                bat 'mvn compile'
-            }
-        }
-        stage('CodeReview'){
+        stage('codeReview'){
             agent any
             steps{
                 sh 'mvn pmd:pmd'
             }
             post{
                 always{
-                    pmd pattern: 'target/pmd.xml'
+                    pmd pattern: 'targe/pmd.xml'
                 }
             }
         }
@@ -31,18 +35,19 @@ pipeline{
             }
         }
         stage('MetricCheck'){
-            agent any
+            agent  any
             steps{
                 sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
             }
             post{
                 always{
-                    cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
+                    cobertura coberturaReportFile:'target/site/cobertura/coverage.xml'
                 }
             }
+           
         }
-        stage('Package'){
-            agent any
+        stage('Pakcage'){
+          agent any
             steps{
                 sh 'mvn package'
             }
