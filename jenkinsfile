@@ -1,4 +1,5 @@
 pipeline{
+    agent none
     tools{
         jdk 'my_java'
         maven 'my_maven'
