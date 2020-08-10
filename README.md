@@ -2,3 +2,4 @@
 
 Simple Maven Project
 this is maven project
+this is serer of git
